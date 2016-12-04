@@ -1,5 +1,6 @@
 import {IUnit} from "./iUnit";
 import {Bullet} from "./Bullet";
+import {check, clone} from "./tools";
 
 export class Unit extends IUnit {
   char = 'A';
@@ -7,32 +8,33 @@ export class Unit extends IUnit {
     x: 5,
     y: 1,
     dir: 1,
+    down: false
   };
-  field;
   jump = 0;
-  units;
 
   moveTo(e) {
     const keys = e.map(el => el.key);
     const codes = e.map(el => el.code);
-    const {x, y} = this.pos;
+    const {x, y, down, dir} = this.pos;
     if (check(keys, 'a')) {
       this.pos.dir = -1;
       if (this.field[y][x - 1] == 0) {
-        this.pos.x += this.pos.dir;
+        this.pos.x += dir;
       }
     }
     if (check(keys, 'd')) {
       this.pos.dir = 1;
       if (this.field[y][x + 1] == 0) {
-        this.pos.x += this.pos.dir;
+        this.pos.x += dir;
       }
     }
     if (check(keys, 'w')) {
-      this.jump = 2;
+      if (down) {
+        this.jump = 2;
+      }
     }
     if (check(codes, 'Space')) {
-      this.units.addChar(new Bullet(this.pos))
+      this.units.addStack(new Bullet(clone(this.pos)))
     }
   }
 
@@ -40,15 +42,13 @@ export class Unit extends IUnit {
     const {x, y} = this.pos;
     if (this.field[y + 1][x] == 0) {
       this.pos.y++;
+      this.pos.down = false;
+    } else {
+      this.pos.down = true;
     }
     if (this.jump > 0) {
       this.pos.y -= 2;
       this.jump--;
     }
   }
-
-}
-
-function check(arr: any[], str) {
-  return (arr.indexOf(str) > -1);
 }

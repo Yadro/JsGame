@@ -1,4 +1,5 @@
 import {IUnit} from "./iUnit";
+import {clone} from "./tools";
 
 export class Bullet extends IUnit {
   char = '*';
@@ -8,13 +9,14 @@ export class Bullet extends IUnit {
 
   constructor(pos) {
     super();
-    pos.x += pos.dir;
+    pos.x += pos.dir * 2;
     this.pos = pos;
   }
 
   next() {
-    if (this.field[this.pos.x + this.pos.dir] == 0) {
-      this.pos.x += this.pos.dir;
+    const {x, y, dir} = this.pos;
+    if (this.field[y][x + dir] == 0) {
+      this.pos.x += dir * 2;
     } else {
       this.del = true;
     }
