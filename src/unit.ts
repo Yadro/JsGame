@@ -1,30 +1,38 @@
 import {IUnit} from "./iUnit";
+import {Bullet} from "./Bullet";
 
-export class Unit implements IUnit {
+export class Unit extends IUnit {
   char = 'A';
   pos = {
     x: 5,
-    y: 1
+    y: 1,
+    dir: 1,
   };
   field;
   jump = 0;
+  units;
 
   moveTo(e) {
-    const key = e.map(el => el.key);
-    const code = e.map(el => el.code);
+    const keys = e.map(el => el.key);
+    const codes = e.map(el => el.code);
     const {x, y} = this.pos;
-    if (key.indexOf('a') > -1) {
+    if (check(keys, 'a')) {
+      this.pos.dir = -1;
       if (this.field[y][x - 1] == 0) {
-        this.pos.x -= 1;
+        this.pos.x += this.pos.dir;
       }
     }
-    if (key.indexOf('d') > -1) {
+    if (check(keys, 'd')) {
+      this.pos.dir = 1;
       if (this.field[y][x + 1] == 0) {
-        this.pos.x += 1;
+        this.pos.x += this.pos.dir;
       }
     }
-    if (code.indexOf('Space') > -1) {
+    if (check(keys, 'w')) {
       this.jump = 2;
+    }
+    if (codes.indexOf('Space') > -1) {
+      this.units.push(new Bullet(this.pos))
     }
   }
 
@@ -39,4 +47,8 @@ export class Unit implements IUnit {
     }
   }
 
+}
+
+function check(arr: any[], str) {
+  return (arr.indexOf(str) > -1);
 }

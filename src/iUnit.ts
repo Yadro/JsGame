@@ -1,7 +1,8 @@
-
-export interface IUnit {
+export abstract class IUnit {
   char: string;
   pos: {x, y};
-  next: Function;
-  field: any[][]
+  field: any[][];
+  units;
+
+  abstract next();
 }

@@ -1,6 +1,6 @@
 import {IUnit} from "./iUnit";
 
-export class Bot implements IUnit {
+export class Bot extends IUnit {
   char = 'x';
   pos = {
     x: 1,

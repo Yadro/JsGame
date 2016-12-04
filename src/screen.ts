@@ -27,7 +27,7 @@ export class MyScreen {
   constructor(el) {
     this.el = el;
     document.body.addEventListener('keyup', (e) => {
-      console.log(e);
+      //console.log(e);
       let el = this.key.find(el => el.key == e.key);
       this.key.splice(this.key.indexOf(el), 1);
     });
@@ -37,13 +37,14 @@ export class MyScreen {
           key: e.key,
           code: e.code
         });
-        console.log(e);
+        //console.log(e);
       }
     })
   }
 
   addCharachter(unit) {
-    unit.field = field;
+    unit.field = this.field;
+    unit.units = this.units;
     this.units.push(unit);
   }
 
