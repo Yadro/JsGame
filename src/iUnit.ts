@@ -1,8 +1,10 @@
+import {Characters} from "./characters";
+
 export abstract class IUnit {
   char: string;
-  pos: {x, y};
+  pos: {x, y, dir};
   field: any[][];
-  units;
+  units: Characters;
 
   abstract next();
 }

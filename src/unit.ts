@@ -31,8 +31,8 @@ export class Unit extends IUnit {
     if (check(keys, 'w')) {
       this.jump = 2;
     }
-    if (codes.indexOf('Space') > -1) {
-      this.units.push(new Bullet(this.pos))
+    if (check(codes, 'Space')) {
+      this.units.addChar(new Bullet(this.pos))
     }
   }
 

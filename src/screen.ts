@@ -1,5 +1,6 @@
 import {Unit} from "./unit";
 import {IUnit} from "./iUnit";
+import {Characters} from "./characters";
 
 let field = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -21,11 +22,13 @@ export class MyScreen {
   private buf = '';
 
   field = field;
-  units: Unit[] = [];
+  units: Characters;
   key: {key, code}[] = [];
 
   constructor(el) {
     this.el = el;
+    this.units = new Characters(this.field);
+
     document.body.addEventListener('keyup', (e) => {
       //console.log(e);
       let el = this.key.find(el => el.key == e.key);
@@ -43,18 +46,17 @@ export class MyScreen {
   }
 
   addCharachter(unit) {
-    unit.field = this.field;
-    unit.units = this.units;
-    this.units.push(unit);
+    this.units.addChar(unit);
   }
 
   updateUnits() {
-    this.units.forEach(un => {
+    this.units.characters.forEach(un => {
       un.next();
       if (un.moveTo) {
         un.moveTo(this.key);
       }
     });
+    this.units.characters = this.units.characters.filter(e => !e.del);
   }
 
   draw() {

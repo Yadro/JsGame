@@ -4,24 +4,16 @@ export class Bot extends IUnit {
   char = 'x';
   pos = {
     x: 1,
-    y: 1
+    y: 1,
+    dir: 1
   };
-  toRight = true;
   field;
+  units;
 
   next() {
-    if (this.toRight) {
-      if (this.field[this.pos.y][this.pos.x + 1] != 1) {
-        this.pos.x += 1;
-      } else {
-        this.toRight = false;
-      }
-    } else {
-      if (this.field[this.pos.y][this.pos.x - 1] != 1) {
-        this.pos.x -= 1;
-      } else {
-        this.toRight = true;
-      }
+    if (this.field[this.pos.y][this.pos.x + this.pos.dir] == 1) {
+      this.pos.dir = -this.pos.dir;
     }
+    this.pos.x += this.pos.dir;
   }
 }
