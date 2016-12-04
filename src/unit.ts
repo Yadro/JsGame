@@ -10,17 +10,20 @@ export class Unit implements IUnit {
   jump = 0;
 
   moveTo(e) {
-    const {key, code} = e;
+    const key = e.map(el => el.key);
+    const code = e.map(el => el.code);
     const {x, y} = this.pos;
-    if (key == 'a') {
+    if (key.indexOf('a') > -1) {
       if (this.field[y][x - 1] == 0) {
         this.pos.x -= 1;
       }
-    } else if (key == 'd') {
+    }
+    if (key.indexOf('d') > -1) {
       if (this.field[y][x + 1] == 0) {
         this.pos.x += 1;
       }
-    } else if (code == 'Space') {
+    }
+    if (code.indexOf('Space') > -1) {
       this.jump = 2;
     }
   }

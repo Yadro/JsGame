@@ -22,15 +22,22 @@ export class MyScreen {
 
   field = field;
   units: Unit[] = [];
-  key: {key, code} = {};
+  key: {key, code}[] = [];
 
   constructor(el) {
     this.el = el;
+    document.body.addEventListener('keyup', (e) => {
+      console.log(e);
+      let el = this.key.find(el => el.key == e.key);
+      this.key.splice(this.key.indexOf(el), 1);
+    });
     document.body.addEventListener('keydown', (e) => {
-      // console.log(e);
-      this.key = {
-        key: e.key,
-        code: e.code
+      if (!this.key.find(el => el.key == e.key)) {
+        this.key.push({
+          key: e.key,
+          code: e.code
+        });
+        console.log(e);
       }
     })
   }
@@ -53,7 +60,6 @@ export class MyScreen {
     this.drawField();
     this.drawUnits();
     this.el.innerHTML = covert(this.buf);
-    this.key = {};
   }
 
   drawField() {
