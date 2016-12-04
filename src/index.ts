@@ -2,12 +2,13 @@ import {MyScreen} from "./screen";
 import {Unit} from "./unit";
 import {Bot} from "./bot";
 
-const myScreen = new MyScreen();
+
+const myScreen = new MyScreen(document.getElementById('game'));
 
 myScreen.addCharachter(new Bot());
+myScreen.addCharachter(new Unit());
 
-
-setInterval(() => {
+window.setInterval(() => {
   myScreen.updateUnits();
   myScreen.draw();
 

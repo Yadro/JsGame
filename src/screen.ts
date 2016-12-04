@@ -1,9 +1,3 @@
-const { stdout, stdin } = process;
-const keypress = require('keypress');
-const clc = require('cli-color');
-const ansi = require('node-ansi');
-keypress(process.stdin);
-
 import {Unit} from "./unit";
 import {IUnit} from "./iUnit";
 
@@ -17,14 +11,28 @@ let field = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
+let size = {
+  height: field.length,
+  width: field[0].length
+};
 
 export class MyScreen {
+  private el;
+  private buf = '';
 
   field = field;
   units: Unit[] = [];
+  key: {key, code} = {};
 
-  constructor() {
-
+  constructor(el) {
+    this.el = el;
+    document.body.addEventListener('keydown', (e) => {
+      // console.log(e);
+      this.key = {
+        key: e.key,
+        code: e.code
+      }
+    })
   }
 
   addCharachter(unit) {
@@ -32,43 +40,47 @@ export class MyScreen {
     this.units.push(unit);
   }
 
-  addEvent(fn) {
-    process.stdin.on('keypress', function (ch, key) {
-      fn(ch, key);
-      process.stdin.resume();
-    });
-  }
-
   updateUnits() {
     this.units.forEach(un => {
       un.next();
+      if (un.moveTo) {
+        un.moveTo(this.key);
+      }
     });
   }
 
   draw() {
-    ansi.gotoxy(0, 0);
     this.drawField();
     this.drawUnits();
-    ansi.gotoxy(0, 0);
+    this.el.innerHTML = covert(this.buf);
+    this.key = {};
   }
 
   drawField() {
+    let buf = '';
     this.field.forEach((row, y) => {
       row.forEach((i, x) => {
-        stdout.write(i ? 'B' : ' ');
+        buf += i ? '█' : ' ';
       });
-      stdout.write('\n');
+      buf += '\n';
     });
+    this.buf = buf;
   }
 
   drawUnits() {
     this.units.forEach(un => {
-      ansi.gotoxy(un.pos.x, un.pos.y);
-      stdout.write(un.char);
-      stdout.write('\b');
+      const {x, y} = un.pos;
+      this.buf = replace(this.buf, un.char, y * (size.width + 1) + x);
     })
   }
 }
 
 
+function replace(str, text, pos) {
+  return str.substring(0, pos) + text + str.substring(pos + text.length);
+}
 
+function covert(str) {
+  str = str.replace(/ /g, '&nbsp;');
+  return str.replace(/\n/g, '<br/>');
+}
