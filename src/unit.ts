@@ -11,6 +11,7 @@ export class Unit extends IUnit {
     down: false
   };
   jump = 0;
+  bullets = 5;
 
   moveTo(e) {
     const keys = e.map(el => el.key);
@@ -34,7 +35,10 @@ export class Unit extends IUnit {
       }
     }
     if (check(codes, 'Space')) {
-      this.units.addStack(new Bullet(clone(this.pos)))
+      if (this.bullets > 0) {
+        this.units.addStack(new Bullet(clone(this.pos)));
+        this.bullets -= 5;
+      }
     }
   }
 
@@ -47,8 +51,15 @@ export class Unit extends IUnit {
       this.pos.down = true;
     }
     if (this.jump > 0) {
-      this.pos.y -= 2;
-      this.jump--;
+      if (this.field[y - 1][x] == 0) {
+        this.pos.y -= 2;
+        this.jump--;
+      } else {
+        this.jump = 0;
+      }
+    }
+    if (this.bullets < 5) {
+      this.bullets++;
     }
   }
 }

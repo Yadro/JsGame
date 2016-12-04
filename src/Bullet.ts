@@ -1,5 +1,4 @@
 import {IUnit} from "./iUnit";
-import {clone} from "./tools";
 
 export class Bullet extends IUnit {
   char = '*';
