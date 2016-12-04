@@ -23,7 +23,7 @@ export class MyScreen {
 
   field = field;
   units: Characters;
-  key: {key, code}[] = [];
+  keys: ({key, code})[] = [];
 
   constructor(el) {
     this.el = el;
@@ -31,12 +31,12 @@ export class MyScreen {
 
     document.body.addEventListener('keyup', (e) => {
       //console.log(e);
-      let el = this.key.find(el => el.key == e.key);
-      this.key.splice(this.key.indexOf(el), 1);
+      let el = this.keys.find(el => el.key == e.key);
+      this.keys.splice(this.keys.indexOf(el), 1);
     });
     document.body.addEventListener('keydown', (e) => {
-      if (!this.key.find(el => el.key == e.key)) {
-        this.key.push({
+      if (!this.keys.find(el => el.key == e.key)) {
+        this.keys.push({
           key: e.key,
           code: e.code
         });
@@ -53,7 +53,7 @@ export class MyScreen {
     this.units.characters.forEach(un => {
       un.next();
       if (un.moveTo) {
-        un.moveTo(this.key);
+        un.moveTo(this.keys);
       }
     });
     this.units.pushStack();

@@ -3,7 +3,8 @@
     "module": "amd",
     "target": "es5",
     "noImplicitAny": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": ["es2015", "es6", "dom"]
   },
   "exclude": [
     "node_modules",
