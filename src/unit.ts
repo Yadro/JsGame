@@ -1,4 +1,4 @@
-import {IUnit, IPosition, RootUnit} from "./iUnit";
+import {RootUnit} from "./iUnit";
 import {Bullet} from "./Bullet";
 import {check, clone} from "./tools";
 

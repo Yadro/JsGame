@@ -1,5 +1,3 @@
-import {Unit} from "./unit";
-import {IUnit} from "./iUnit";
 import {Characters} from "./characters";
 
 let field = [
