@@ -57,7 +57,7 @@ export class MyScreen {
       }
     });
     this.units.pushStack();
-    this.units.characters = this.units.characters.filter(e => !e.del);
+    this.units.characters = this.units.characters.filter(e => !e.dead);
   }
 
   draw() {

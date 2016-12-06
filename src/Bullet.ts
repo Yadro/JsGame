@@ -1,23 +1,20 @@
-import {IUnit} from "./iUnit";
+import {IUnit, RootUnit} from "./iUnit";
 
-export class Bullet extends IUnit {
-  char = '*';
-  pos;
-  readonly field;
-  del;
-
+export class Bullet extends RootUnit {
   constructor(pos) {
-    super();
-    pos.x += pos.dir * 2;
-    this.pos = pos;
+    super('*', {
+      x: pos.x + pos.dir * pos.speed,
+      y: pos.y,
+      dir: pos.dir,
+      speed: 2
+    });
   }
 
   next() {
-    const {x, y, dir} = this.pos;
-    if (this.field[y][x + dir] == 0) {
-      this.pos.x += dir * 2;
-    } else {
-      this.del = true;
+    let delta = this.canMove(this.pos);
+    this.pos.x += delta;
+    if (!delta) {
+      this.dead = true;
     }
   }
 }

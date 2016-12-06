@@ -19,6 +19,7 @@ export interface IPosition {
 export class RootUnit {
   char: string;
   pos: IPosition;
+  dead: boolean;
   field: any[][];
   units: Characters;
   G = 1;
