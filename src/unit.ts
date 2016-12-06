@@ -5,7 +5,7 @@ import {check, clone} from "./tools";
 export class Unit extends RootUnit {
   jump = 0;
   bullets = 5;
-  down = false;
+  stayGround = false;
 
   constructor() {
     super('A', {
@@ -20,7 +20,6 @@ export class Unit extends RootUnit {
     const keys = e.map(el => el.key);
     const codes = e.map(el => el.code);
     let isMove = false;
-    const {down} = this;
 
     if (check(keys, 'a')) {
       this.pos.dir = -1;
@@ -34,7 +33,7 @@ export class Unit extends RootUnit {
       this.pos.x += this.canMove(this.pos);
     }
     if (check(keys, 'w')) {
-      if (down) {
+      if (this.stayGround) {
         this.jump = 2;
       }
     }
@@ -48,20 +47,19 @@ export class Unit extends RootUnit {
 
   next() {
     const {x, y} = this.pos;
-    if (this.field[y + 1][x] == 0) {
-      this.pos.y++;
-      this.down = false;
-    } else {
-      this.down = true;
+
+    const toDown = this.canMove({x, y, speed: this.G, dir: 1}, false);
+    if (!this.jump) {
+      this.pos.y += toDown;
     }
+    this.stayGround = !toDown;
+    
     if (this.jump > 0) {
-      if (this.field[y - 1][x] == 0) {
-        this.pos.y -= 2;
-        this.jump--;
-      } else {
-        this.jump = 0;
-      }
+      let toUp = this.canMove({x, y, speed: 1, dir: -1}, false);
+      this.pos.y += toUp;
+      this.jump = toUp == 0 ? 0 : this.jump - 1;
     }
+    
     if (this.bullets < 5) {
       this.bullets++;
     }

@@ -13,7 +13,7 @@ export abstract class IUnit {
 export interface IPosition {
   x;
   y;
-  dir;
+  dir; // -1/1 - left/right; -1/1 - up/down
   speed;
 }
 export class RootUnit {
@@ -21,6 +21,7 @@ export class RootUnit {
   pos: IPosition;
   field: any[][];
   units: Characters;
+  G = 1;
 
   constructor(char, pos) {
     this.char = char;
