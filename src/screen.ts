@@ -16,15 +16,23 @@ let size = {
 };
 
 export class MyScreen {
-  private el;
-  private buf = '';
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+  private size = {
+    cell: 15,
+    height: window.innerHeight,
+    width: window.innerWidth
+  };
 
   field = field;
   units: Characters;
   keys: ({key, code})[] = [];
 
-  constructor(el) {
-    this.el = el;
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.canvas.setAttribute('height', ''+this.size.height);
+    this.canvas.setAttribute('width', ''+this.size.width);
+    this.ctx = canvas.getContext('2d');
     this.units = new Characters(this.field);
 
     document.body.addEventListener('keyup', (e) => {
@@ -59,26 +67,29 @@ export class MyScreen {
   }
 
   draw() {
+    this.ctx.fillStyle = '#fff';
+    this.ctx.fillRect(0, 0, this.size.height, this.size.width);
+    this.ctx.fillStyle = '#000';
     this.drawField();
     this.drawUnits();
-    this.el.innerHTML = covert(this.buf);
   }
 
   drawField() {
-    let buf = '';
+    const cell = this.size.cell;
     this.field.forEach((row, y) => {
       row.forEach((i, x) => {
-        buf += i ? '█' : ' ';
+        if (i) {
+          this.ctx.fillRect(x * cell, y * cell, cell, cell);
+        }
       });
-      buf += '\n';
     });
-    this.buf = buf;
   }
 
   drawUnits() {
+    const cell = this.size.cell;
     this.units.forEach(un => {
       const {x, y} = un.pos;
-      this.buf = replace(this.buf, un.char, y * (size.width + 1) + x);
+      this.ctx.fillRect(x * cell, y * cell, cell, cell);
     })
   }
 }
