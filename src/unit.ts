@@ -12,10 +12,10 @@ export class Unit extends RootUnit {
       y: 15,
       dirX: 0,
       dirY: 0,
-      speedX: 4,
-      speedY: 4,
+      speedX: 7,
+      speedY: 7,
       horizont: true
-    }, 15);
+    }, 35);
   }
 
   moveTo(e) {

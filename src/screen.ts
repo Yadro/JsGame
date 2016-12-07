@@ -1,18 +1,6 @@
 import {Characters} from "./characters";
 import {Field} from "./field";
 
-let field2 = [];
-for (let i = 0; i < 50; i++) {
-  field2.push([]);
-  for (let j = 0; j < 50; j++) {
-    if (i > 5 && i < 10 && (j == 5 || j == 7 || j == 10)) {
-      field2[i].push(1);
-    } else {
-      field2[i].push(i == 49 ? 1 : 0);
-    }
-  }
-}
-
 export class MyScreen {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
@@ -21,7 +9,7 @@ export class MyScreen {
     width: window.innerWidth
   };
 
-  field = new Field(field2, 15);
+  field = new Field(35);
   units: Characters;
   keys: ({key, code})[] = [];
 
