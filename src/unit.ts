@@ -8,13 +8,12 @@ export class Unit extends RootUnit {
 
   constructor() {
     super('A', {
-      x: 55,
-      y: 15,
+      x: 80,
+      y: 35,
       dirX: 0,
       dirY: 0,
       speedX: 7,
       speedY: 7,
-      horizont: true
     }, 35);
   }
 

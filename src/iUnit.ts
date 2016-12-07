@@ -2,15 +2,6 @@ import {Characters} from "./characters";
 import {Field} from "./field";
 
 
-export abstract class IUnit {
-  char: string;
-  pos: IPosition;
-  field: any[][];
-  units: Characters;
-
-  abstract next();
-}
-
 export interface IPosition {
   x;
   y;
@@ -18,7 +9,6 @@ export interface IPosition {
   dirY; // -1/1 - up/down
   speedX;
   speedY;
-  horizont: boolean;
 }
 export class RootUnit {
   char: string;
@@ -34,7 +24,7 @@ export class RootUnit {
     this.size = size;
   }
 
-  checkCollision(posObj : IPosition) {
+  protected checkCollision(posObj : IPosition) {
     return {
       x: this.checkProectionCollision(posObj, true),
       y: this.checkProectionCollision(posObj, false)
