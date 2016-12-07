@@ -12,4 +12,4 @@ window.setInterval(() => {
   myScreen.updateUnits();
   myScreen.draw();
 
-}, 100);
+}, 20);

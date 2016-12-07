@@ -1,4 +1,5 @@
 import {Characters} from "./characters";
+import {Field} from "./field";
 
 let field2 = [];
 for (let i = 0; i < 50; i++) {
@@ -16,12 +17,11 @@ export class MyScreen {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private size = {
-    cell: 15,
     height: window.innerHeight,
     width: window.innerWidth
   };
 
-  field = field2;
+  field = new Field(field2, 15);
   units: Characters;
   keys: ({key, code})[] = [];
 
@@ -72,21 +72,21 @@ export class MyScreen {
   }
 
   drawField() {
-    const cell = this.size.cell;
-    this.field.forEach((row, y) => {
+    const size = this.field.size;
+    this.field.field.forEach((row, y) => {
       row.forEach((i, x) => {
         if (i) {
-          this.ctx.fillRect(x * cell, y * cell, cell, cell);
+          this.ctx.fillRect(x * size, y * size, size, size);
         }
       });
     });
   }
 
   drawUnits() {
-    const cell = this.size.cell;
+    const size = this.field.size;
     this.units.forEach(un => {
       const {x, y} = un.pos;
-      this.ctx.fillRect(x * cell, y * cell, cell, cell);
+      this.ctx.fillRect(x, y, size, size);
     })
   }
 }

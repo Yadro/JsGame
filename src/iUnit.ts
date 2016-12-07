@@ -1,4 +1,5 @@
 import {Characters} from "./characters";
+import {Field} from "./field";
 
 
 export abstract class IUnit {
@@ -23,12 +24,14 @@ export class RootUnit {
   char: string;
   pos: IPosition;
   dead: boolean;
-  field: any[][];
+  field: Field;
   units: Characters;
+  size;
 
-  constructor(char, pos: IPosition) {
+  constructor(char, pos: IPosition, size) {
     this.char = char;
     this.pos = pos;
+    this.size = size;
   }
 
   checkCollision(posObj : IPosition) {
@@ -40,28 +43,33 @@ export class RootUnit {
 
   private checkProectionCollision(posObj : IPosition, horizont) {
     const fixPos = horizont ? posObj.y : posObj.x;
-    const pos =    horizont ? posObj.x : posObj.y;
+    let   pos =    horizont ? posObj.x : posObj.y;
     const dir =    horizont ? posObj.dirX : posObj.dirY;
     const speed =  horizont ? posObj.speedX : posObj.speedY;
 
-    const isWall = (pos) => {
+    const isWall = (pos, offset) => {
       const query = horizont
-        ? this.field[fixPos][pos]
-        : this.field[pos][fixPos];
+        ? this.field.getCell(pos, fixPos + this.size * offset)
+        : this.field.getCell(fixPos + this.size * offset, pos);
       return query != 0;
     };
 
     if (dir === 0) {
       return 0;
     }
-
-    let canPos = 0;
-    for (let i = pos + dir; Math.abs(pos - i) <= speed; i += dir) {
-      if (isWall(i)) {
-        return dir * canPos;
-      }
-      canPos++;
+    if (dir > 0) {
+      pos += this.size;
     }
-    return dir * canPos;
+
+    let canPos = [0, 0];
+    for (let j = 0; j < 2; j++) {
+      for (let i = pos + dir; Math.abs(pos - i) <= speed; i += dir) {
+        if (isWall(i, j)) {
+          break;
+        }
+        canPos[j]++;
+      }
+    }
+    return dir * Math.min(canPos[0], canPos[1]);
   }
 }

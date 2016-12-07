@@ -8,14 +8,14 @@ export class Unit extends RootUnit {
 
   constructor() {
     super('A', {
-      x: 5,
-      y: 1,
+      x: 55,
+      y: 15,
       dirX: 0,
       dirY: 0,
-      speedX: 2,
-      speedY: 2,
+      speedX: 4,
+      speedY: 4,
       horizont: true
-    });
+    }, 15);
   }
 
   moveTo(e) {
