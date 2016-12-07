@@ -1,6 +1,5 @@
 import {RootUnit} from "./iUnit";
 import {Bullet} from "./Bullet";
-import {check, clone} from "../tools";
 
 export class Unit extends RootUnit {
 
@@ -18,19 +17,16 @@ export class Unit extends RootUnit {
   }
 
   moveTo(e) {
-    const keys = e.map(el => el.key);
-    const codes = e.map(el => el.code);
-
-    if (check(keys, 'a')) {
+    if (e.checkKey('a')) {
       this.pos.dirX = -1;
-    } else if (check(keys, 'd')) {
+    } else if (e.checkKey('d')) {
       this.pos.dirX = 1;
     } else {
       this.pos.dirX = 0;
     }
-    if (check(keys, 'w')) {
+    if (e.checkKey('w')) {
       this.pos.dirY = -1;
-    } else if (check(keys, 's')) {
+    } else if (e.checkKey('s')) {
       this.pos.dirY = 1;
     } else {
       this.pos.dirY = 0;
@@ -40,7 +36,7 @@ export class Unit extends RootUnit {
     this.pos.x += x;
     this.pos.y += y;
 
-    if (check(codes, 'Space')) {
+    if (e.checkCode('Space')) {
       if (this.bullets > 0) {
         this.units.addStack(new Bullet(this));
         this.bullets -= 5;

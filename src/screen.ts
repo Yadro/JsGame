@@ -1,5 +1,6 @@
 import {Characters} from "./units/characters";
 import {Field} from "./field";
+import {Input} from "./Input";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -8,10 +9,10 @@ export class MyScreen {
     height: window.innerHeight,
     width: window.innerWidth
   };
+  input: Input;
 
   field = new Field(35);
   units: Characters;
-  keys: ({key, code})[] = [];
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -19,21 +20,7 @@ export class MyScreen {
     this.canvas.setAttribute('width', ''+this.size.width);
     this.ctx = canvas.getContext('2d');
     this.units = new Characters(this.field);
-
-    document.body.addEventListener('keyup', (e) => {
-      //console.log(e);
-      let el = this.keys.find(el => el.key == e.key);
-      this.keys.splice(this.keys.indexOf(el), 1);
-    });
-    document.body.addEventListener('keydown', (e) => {
-      if (!this.keys.find(el => el.key == e.key)) {
-        this.keys.push({
-          key: e.key,
-          code: e.code
-        });
-        //console.log(e);
-      }
-    })
+    this.input = new Input();
   }
 
   addCharachter(unit) {
@@ -44,7 +31,7 @@ export class MyScreen {
     this.units.characters.forEach(un => {
       un.next();
       if (un.moveTo) {
-        un.moveTo(this.keys);
+        un.moveTo(this.input);
       }
     });
     this.units.pushStack();
