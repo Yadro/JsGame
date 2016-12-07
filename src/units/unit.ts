@@ -42,7 +42,7 @@ export class Unit extends RootUnit {
 
     if (check(codes, 'Space')) {
       if (this.bullets > 0) {
-        this.units.addStack(new Bullet(clone(this.pos)));
+        this.units.addStack(new Bullet(this));
         this.bullets -= 5;
       }
     }
