@@ -1,4 +1,4 @@
-import {Characters} from "./characters";
+import {Characters} from "./units/characters";
 import {Field} from "./field";
 
 export class MyScreen {
@@ -71,10 +71,9 @@ export class MyScreen {
   }
 
   drawUnits() {
-    const size = this.field.size;
-    this.units.forEach(un => {
+    this.units.characters.forEach(un => {
       const {x, y} = un.pos;
-      this.ctx.fillRect(x, y, size, size);
+      this.ctx.fillRect(x, y, un.size, un.size);
     })
   }
 }

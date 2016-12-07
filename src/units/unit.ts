@@ -1,6 +1,6 @@
 import {RootUnit} from "./iUnit";
 import {Bullet} from "./Bullet";
-import {check, clone} from "./tools";
+import {check, clone} from "../tools";
 
 export class Unit extends RootUnit {
 

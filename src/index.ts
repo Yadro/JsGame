@@ -1,6 +1,6 @@
 import {MyScreen} from "./screen";
-import {Unit} from "./unit";
-import {Bot} from "./bot";
+import {Unit} from "./units/unit";
+import {Bot} from "./units/bot";
 
 
 const myScreen = new MyScreen(document.getElementById('canvas'));

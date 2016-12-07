@@ -1,5 +1,5 @@
 import {Characters} from "./characters";
-import {Field} from "./field";
+import {Field} from "../field";
 
 
 export interface IPosition {
