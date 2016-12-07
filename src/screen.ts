@@ -4,7 +4,11 @@ let field2 = [];
 for (let i = 0; i < 50; i++) {
   field2.push([]);
   for (let j = 0; j < 50; j++) {
-    field2[i].push(i == 49 ? 1 : 0);
+    if (i > 5 && i < 10 && (j == 5 || j == 7 || j == 10)) {
+      field2[i].push(1);
+    } else {
+      field2[i].push(i == 49 ? 1 : 0);
+    }
   }
 }
 

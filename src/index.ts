@@ -5,7 +5,7 @@ import {Bot} from "./bot";
 
 const myScreen = new MyScreen(document.getElementById('canvas'));
 
-myScreen.addCharachter(new Bot());
+// myScreen.addCharachter(new Bot());
 myScreen.addCharachter(new Unit());
 
 window.setInterval(() => {
