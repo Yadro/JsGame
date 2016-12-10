@@ -9,7 +9,7 @@ export interface IPosition {
   dirY; // -1/1 - up/down
   speedX;
   speedY;
-  touch;
+  touch?;
 }
 export class RootUnit {
   char: string;
@@ -66,4 +66,31 @@ export class RootUnit {
     }
     return dir * Math.min(canPos[0], canPos[1]);
   }
+}
+
+const pi = 3.14;
+export function getAngle(pos, mouse) {
+  const {x, y} = mouse;
+  let pX = pos.x - x;
+  let pY = pos.y - y;
+
+  let alpha = Math.atan(pY / pX);
+  if (pX < 0 && pY < 0) {
+    alpha = pi + alpha;
+  }
+  else if (pX > 0 && pY < 0) {
+    alpha = 2 * pi + alpha;
+  }
+  else if (pX < 0 && pY > 0) {
+    alpha = pi + alpha;
+  }
+  if (alpha < pi) {
+    alpha = pi - alpha;
+  } else {
+    alpha = pi + 2*pi - alpha;
+  }
+
+  alpha = 2 * pi - alpha;
+  // console.log(Math.floor((alpha) * 180 / pi));
+  return alpha;
 }

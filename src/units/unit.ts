@@ -1,10 +1,9 @@
-import {RootUnit} from "./iUnit";
+import {RootUnit, getAngle} from "./iUnit";
 import {Bullet} from "./Bullet";
 import {Input} from "../Input";
 
 export class Unit extends RootUnit {
 
-  lockAt = 0;
   bullets = 5;
 
   constructor() {
@@ -49,32 +48,11 @@ export class Unit extends RootUnit {
   }
 
   getLockAt(e: Input) {
-    const pi = 3.14;
-
-    const {x, y} = e.mouse;
-    let pX = this.pos.x - x;
-    let pY = this.pos.y - y;
-
-    let alpha = Math.atan(pY / pX);
-    if (pX < 0 && pY < 0) {
-      alpha = pi + alpha;
-    }
-    else if (pX > 0 && pY < 0) {
-      alpha = 2 * pi + alpha;
-    }
-    else if (pX < 0 && pY > 0) {
-      alpha = pi + alpha;
-    }
-    if (alpha < pi) {
-      alpha = pi - alpha;
-    } else {
-      alpha = pi + 2*pi - alpha;
-    }
-
-    alpha = 2 * pi - alpha;
-
-    // console.log(Math.floor((alpha) * 180 / pi));
-    return alpha;
+    const pos = {
+      x: this.pos.x + this.size / 2,
+      y: this.pos.y + this.size / 2,
+    };
+    return getAngle(pos, e.mouse)
   }
 
   next() {

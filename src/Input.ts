@@ -1,5 +1,5 @@
 
-import {check} from "./tools";
+import {includes} from "./tools";
 export class Input {
 
   keys = [];
@@ -38,11 +38,11 @@ export class Input {
 
   checkKey(key) {
     const keys = this.keys.map(el => el.key);
-    return check(keys, key);
+    return includes(keys, key);
   }
 
   checkCode(code) {
     const codes = this.keys.map(el => el.code);
-    return check(codes, code);
+    return includes(codes, code);
   }
 }
