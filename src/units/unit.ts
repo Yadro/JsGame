@@ -1,8 +1,10 @@
 import {RootUnit} from "./iUnit";
 import {Bullet} from "./Bullet";
+import {Input} from "../Input";
 
 export class Unit extends RootUnit {
 
+  lockAt = 0;
   bullets = 5;
 
   constructor() {
@@ -16,7 +18,7 @@ export class Unit extends RootUnit {
     }, 35);
   }
 
-  moveTo(e) {
+  moveTo(e: Input) {
     if (e.checkKey('a')) {
       this.pos.dirX = -1;
     } else if (e.checkKey('d')) {
@@ -36,12 +38,43 @@ export class Unit extends RootUnit {
     this.pos.x += x;
     this.pos.y += y;
 
-    if (e.checkCode('Space')) {
+
+    let alpha = this.getLockAt(e);
+    if (e.mouse.lBtn) {
       if (this.bullets > 0) {
-        this.units.addStack(new Bullet(this));
+        this.units.addStack(new Bullet(this, alpha));
         this.bullets -= 5;
       }
     }
+  }
+
+  getLockAt(e: Input) {
+    const pi = 3.14;
+
+    const {x, y} = e.mouse;
+    let pX = this.pos.x - x;
+    let pY = this.pos.y - y;
+
+    let alpha = Math.atan(pY / pX);
+    if (pX < 0 && pY < 0) {
+      alpha = pi + alpha;
+    }
+    else if (pX > 0 && pY < 0) {
+      alpha = 2 * pi + alpha;
+    }
+    else if (pX < 0 && pY > 0) {
+      alpha = pi + alpha;
+    }
+    if (alpha < pi) {
+      alpha = pi - alpha;
+    } else {
+      alpha = pi + 2*pi - alpha;
+    }
+
+    alpha = 2 * pi - alpha;
+
+    // console.log(Math.floor((alpha) * 180 / pi));
+    return alpha;
   }
 
   next() {

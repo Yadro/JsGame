@@ -2,15 +2,12 @@ import {RootUnit, IPosition} from "./iUnit";
 import {Unit} from "./unit";
 
 export class Bullet extends RootUnit {
-  constructor(un: Unit) {
-    super('*', {
-      x: un.pos.x + Math.floor(un.size / 2),
-      y: un.pos.y + Math.floor(un.size / 2),
-      dirX: 1,
-      dirY: 0,
-      speedX: 10,
-      speedY: 10,
-    }, 5);
+  constructor(un: Unit, angle) {
+    const speed = 10;
+    let o = applayAngle(speed, angle);
+    o.x = un.pos.x + Math.floor(un.size / 2);
+    o.y = un.pos.y + Math.floor(un.size / 2);
+    super('*', o, 5);
   }
 
   next() {
@@ -20,5 +17,15 @@ export class Bullet extends RootUnit {
     if (x == 0 && y == 0) {
       this.dead = true;
     }
+  }
+}
+
+
+function applayAngle(speed, angle): any {
+  return {
+    dirX: Math.sign(Math.cos(angle)),
+    dirY: Math.sign(Math.sin(angle)),
+    speedX: speed * Math.abs(Math.cos(angle)),
+    speedY: speed * Math.abs(Math.sin(angle)),
   }
 }
