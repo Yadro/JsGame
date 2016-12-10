@@ -13,9 +13,11 @@
   },
   "devDependencies": {
     "@types/node": "^6.0.46",
+    "browser-sync": "^2.18.2",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-typescript": "^3.1.2",
+    "rimraf": "^2.5.4",
     "typescript": "^2.0.6"
   }
 }
