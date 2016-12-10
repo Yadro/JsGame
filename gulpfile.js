@@ -7,7 +7,7 @@ const browserSync = require("browser-sync");
 const reload = browserSync.reload;
 const rimraf = require('rimraf');
 
-var config = {
+const config = {
   server: {
     baseDir: "./"
   },
@@ -21,7 +21,7 @@ gulp.task('ts', function () {
   return gulp.src('src/**/*.ts')
     .pipe(sourcemaps.init())
       .pipe(tsProject())
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('build'))
     .pipe(reload({stream: true}));
 });
