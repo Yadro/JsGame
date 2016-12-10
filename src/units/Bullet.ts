@@ -14,7 +14,7 @@ export class Bullet extends RootUnit {
     const {x, y} = this.checkCollision(this.pos);
     this.pos.x += x;
     this.pos.y += y;
-    if (x == 0 && y == 0) {
+    if (this.pos.touch) {
       this.dead = true;
     }
   }

@@ -9,6 +9,7 @@ export interface IPosition {
   dirY; // -1/1 - up/down
   speedX;
   speedY;
+  touch;
 }
 export class RootUnit {
   char: string;
@@ -25,6 +26,7 @@ export class RootUnit {
   }
 
   protected checkCollision(posObj : IPosition) {
+    this.pos.touch = false;
     return {
       x: this.checkProectionCollision(posObj, true),
       y: this.checkProectionCollision(posObj, false)
@@ -51,10 +53,12 @@ export class RootUnit {
       pos += this.size;
     }
 
+    // проверка с двух сторон: fixPos и fixPos + this.size
     let canPos = [0, 0];
     for (let j = 0; j < 2; j++) {
       for (let i = pos + dir; Math.abs(pos - i) <= speed; i += dir) {
         if (isWall(i, j)) {
+          this.pos.touch = true;
           break;
         }
         canPos[j]++;
