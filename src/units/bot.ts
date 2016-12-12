@@ -1,10 +1,10 @@
 import {AnimationUnit} from "./AnimationUnit";
 
 export class Bot extends AnimationUnit {
-  constructor() {
+  constructor(x = 100, y = 150) {
     super('x', {
-      x: 100,
-      y: 150,
+      x,
+      y,
       dirX: 1,
       dirY: 0,
       speedX: 3,
