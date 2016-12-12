@@ -14,10 +14,12 @@ export interface IPosition {
 export class RootUnit {
   char: string;
   pos: IPosition;
+  size;
   dead: boolean;
+  health = 5;
+
   field: Field;
   units: Characters;
-  size;
 
   constructor(char, pos: IPosition, size) {
     this.char = char;
@@ -28,12 +30,12 @@ export class RootUnit {
   protected checkCollision(posObj : IPosition) {
     this.pos.touch = false;
     return {
-      x: this.checkProectionCollision(posObj, true),
-      y: this.checkProectionCollision(posObj, false)
+      x: this.checkProjectionCollision(posObj, true),
+      y: this.checkProjectionCollision(posObj, false)
     }
   }
 
-  private checkProectionCollision(posObj : IPosition, horizont) {
+  private checkProjectionCollision(posObj : IPosition, horizont) {
     const fixPos = horizont ? posObj.y : posObj.x;
     let   pos =    horizont ? posObj.x : posObj.y;
     const dir =    horizont ? posObj.dirX : posObj.dirY;

@@ -97,6 +97,14 @@ export class MyScreen {
     const {x, y} = pos;
     const [sx,sy,w,h] = un.getSprite();
     this.ctx.drawImage(sprite, sx, sy, w, h, x + size / 2 - w / 2, y, w, h);
+    if (un.health) {
+      this.drawHealth(x, y, un);
+    }
+  }
+
+  drawHealth(x, y, un) {
+    this.ctx.strokeRect(x, y, 15, 3);
+    this.ctx.fillRect(x, y, un.health * 3, 3);
   }
 
   drawSprite(x, y, sprite: Sprite) {
