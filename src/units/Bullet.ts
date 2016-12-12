@@ -1,4 +1,4 @@
-import {RootUnit, IPosition} from "./iUnit";
+import {RootUnit, IPosition} from "./RootUnit";
 import {Unit} from "./unit";
 
 export class Bullet extends RootUnit {

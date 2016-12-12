@@ -75,7 +75,7 @@ export class MyScreen {
     this.units.characters.forEach(un => {
       // const {x, y} = un.pos;
       // this.ctx.fillRect(x, y, un.size, un.size);
-      if (un.getSprite) {
+      if (un instanceof Unit) {
         this.drawUnitSprite(un);
       } else {
         this.drawUnit(un);
@@ -83,7 +83,7 @@ export class MyScreen {
     })
   }
 
-  drawUnit(un: Unit) {
+  drawUnit(un) {
     const pos = un.pos;
     this.ctx.drawImage(this.image, 96, 416, 32, 32, pos.x, pos.y, un.size, un.size);
   }

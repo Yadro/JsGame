@@ -1,5 +1,5 @@
 import {Unit} from "./unit";
-import {RootUnit} from "./iUnit";
+import {RootUnit} from "./RootUnit";
 
 export class Characters {
   field;

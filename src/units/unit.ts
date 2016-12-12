@@ -1,4 +1,4 @@
-import {RootUnit, getAngle} from "./iUnit";
+import {RootUnit, getAngle} from "./RootUnit";
 import {Bullet} from "./Bullet";
 import {Input} from "../Input";
 

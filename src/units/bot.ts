@@ -1,4 +1,4 @@
-import {RootUnit} from "./iUnit";
+import {RootUnit} from "./RootUnit";
 
 export class Bot extends RootUnit {
   constructor() {
