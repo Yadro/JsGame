@@ -1,6 +1,6 @@
-import {RootUnit} from "./RootUnit";
+import {AnimationUnit} from "./AnimationUnit";
 
-export class Bot extends RootUnit {
+export class Bot extends AnimationUnit {
   constructor() {
     super('x', {
       x: 100,

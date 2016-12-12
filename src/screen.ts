@@ -1,8 +1,8 @@
 import {Characters} from "./units/characters";
 import {Field} from "./field";
 import {Input} from "./Input";
-import {Unit} from "./units/unit";
 import {SpriteDraw, Sprite} from "./SpriteDraw";
+import {AnimationUnit} from "./units/AnimationUnit";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -75,7 +75,7 @@ export class MyScreen {
     this.units.characters.forEach(un => {
       // const {x, y} = un.pos;
       // this.ctx.fillRect(x, y, un.size, un.size);
-      if (un instanceof Unit) {
+      if (un instanceof AnimationUnit) {
         this.drawUnitSprite(un);
       } else {
         this.drawUnit(un);
@@ -92,7 +92,7 @@ export class MyScreen {
    * Отрисовка спрайта по середине (по oX) предпологаемого места
    * @param un
    */
-  drawUnitSprite(un: Unit) {
+  drawUnitSprite(un: AnimationUnit) {
     const {pos, size, sprite} = un;
     const {x, y} = pos;
     const [sx,sy,w,h] = un.getSprite();
