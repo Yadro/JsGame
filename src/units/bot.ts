@@ -22,5 +22,6 @@ export class Bot extends AnimationUnit {
     if (this.pos.touch) {
       this.pos.dirX = -this.pos.dirX;
     }
+    this.checkBulletHit();
   }
 }

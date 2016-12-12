@@ -28,7 +28,6 @@ export class RootUnit {
 
   protected checkCollision(posObj : IPosition) {
     this.pos.touch = false;
-    this.checkBulletHit();
     return {
       x: this.checkProjectionCollision(posObj, true),
       y: this.checkProjectionCollision(posObj, false)
@@ -83,8 +82,13 @@ export class RootUnit {
         y >= oY && y <= oY + size
       ) {
         this.health--;
+        bullet.kill();
       }
     }
+  }
+
+  kill() {
+    this.dead = true;
   }
 }
 

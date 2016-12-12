@@ -60,5 +60,6 @@ export class Unit extends AnimationUnit {
     if (this.bullets < 5) {
       this.bullets++;
     }
+    this.checkBulletHit();
   }
 }
