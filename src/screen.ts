@@ -73,7 +73,7 @@ export class MyScreen {
 
   drawUnits() {
     this.units.characters.forEach(un => {
-      const {x, y} = un.pos;
+      // const {x, y} = un.pos;
       // this.ctx.fillRect(x, y, un.size, un.size);
       if (un.getSprite) {
         this.drawUnitSprite(un);
@@ -83,19 +83,20 @@ export class MyScreen {
     })
   }
 
-  drawImage(image, x, y) {
-    this.ctx.drawImage(this.image, 96, 416, 32, 32, 0, 0, 32, 32);
-  }
-
   drawUnit(un: Unit) {
     const pos = un.pos;
     this.ctx.drawImage(this.image, 96, 416, 32, 32, pos.x, pos.y, un.size, un.size);
   }
 
+  /**
+   * Отрисовка спрайта по середине (по oX) предпологаемого места
+   * @param un
+   */
   drawUnitSprite(un: Unit) {
     const {pos, size, sprite} = un;
-    const [x,y,w,h] = un.getSprite();
-    this.ctx.drawImage(sprite, x, y, w, h, pos.x, pos.y, w, h);
+    const {x, y} = pos;
+    const [sx,sy,w,h] = un.getSprite();
+    this.ctx.drawImage(sprite, sx, sy, w, h, x + size / 2 - w / 2, y, w, h);
   }
 
   drawSprite(x, y, sprite: Sprite) {
