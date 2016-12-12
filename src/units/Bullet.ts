@@ -1,13 +1,18 @@
-import {RootUnit, IPosition} from "./RootUnit";
+import {RootUnit} from "./RootUnit";
 import {Unit} from "./unit";
 
 export class Bullet extends RootUnit {
+  bullet: true;
+  own: Unit;
+
   constructor(un: Unit, angle) {
     const speed = 10;
     let o = applayAngle(speed, angle);
     o.x = un.pos.x + Math.floor(un.size / 2);
     o.y = un.pos.y + Math.floor(un.size / 2);
     super('*', o, 5);
+    this.bullet = true;
+    this.own = un;
   }
 
   next() {

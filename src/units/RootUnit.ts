@@ -1,7 +1,5 @@
 import {Characters} from "./characters";
 import {Field} from "../field";
-import {Bullet} from "./Bullet";
-
 
 export interface IPosition {
   x;
@@ -30,7 +28,7 @@ export class RootUnit {
 
   protected checkCollision(posObj : IPosition) {
     this.pos.touch = false;
-    // this.checkBulletHit();
+    this.checkBulletHit();
     return {
       x: this.checkProjectionCollision(posObj, true),
       y: this.checkProjectionCollision(posObj, false)
@@ -75,10 +73,18 @@ export class RootUnit {
    * Проверка на попадание пулей
    */
   checkBulletHit() {
-    const bullets = this.units.characters.filter(u => u /*&& u instanceof Bullet*/);
-    /*for (let bullet of bullets) {
-
-    }*/
+    const bullets = this.units.characters.filter(u => u.bullet && u.own != this);
+    for (let bullet of bullets) {
+      const {size, pos} = this;
+      const {x: oX, y: oY} = pos;
+      const {x, y} = bullet.pos;
+      if (
+        x >= oX && x <= oX + size &&
+        y >= oY && y <= oY + size
+      ) {
+        this.health--;
+      }
+    }
   }
 }
 

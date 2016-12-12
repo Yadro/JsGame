@@ -1,10 +1,14 @@
 import {Unit} from "./unit";
 import {RootUnit} from "./RootUnit";
+import {Bullet} from "./Bullet";
+import {Bot} from "./bot";
+
+type Un = Bullet|Unit|Bot;
 
 export class Characters {
   field;
-  characters: RootUnit[] = [];
-  stack: RootUnit[] = [];
+  characters: Un[] = [];
+  stack: Un[] = [];
 
   constructor(field) {
     this.field = field;
