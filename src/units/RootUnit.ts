@@ -65,7 +65,7 @@ export class RootUnit {
         canPos[j]++;
       }
     }
-    return dir * Math.min(canPos[0], canPos[1]);
+    return dir * Math.min(...canPos);
   }
 
   /**
@@ -73,9 +73,9 @@ export class RootUnit {
    */
   checkBulletHit() {
     const bullets = this.units.characters.filter(u => u.bullet && u.own != this);
+    const {size, pos} = this;
+    const {x: oX, y: oY} = pos;
     for (let bullet of bullets) {
-      const {size, pos} = this;
-      const {x: oX, y: oY} = pos;
       const {x, y} = bullet.pos;
       if (
         x >= oX && x <= oX + size &&
