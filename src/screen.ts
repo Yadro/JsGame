@@ -30,7 +30,7 @@ export class MyScreen {
     this.input = new Input();
 
     this.image = new Image();
-    this.image.src = '../sprites/terrain.png';
+    this.image.src = '../sprites/desert_tileset.png';
     this.image.onload = () => {
 
     }

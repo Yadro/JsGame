@@ -11,7 +11,7 @@ myScreen.addCharachter(unit);
 myScreen.addCharachter(new Bot());
 myScreen.addCharachter(new Bot(100, 200));
 myScreen.addCharachter(new Bot(100, 300));
-myScreen.addCharachter(new HauntBot(100, 400, unit));
+// myScreen.addCharachter(new HauntBot(100, 400, unit));
 // myScreen.addCharachter(new HauntBot(100, 500, unit));
 
 

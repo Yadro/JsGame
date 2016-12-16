@@ -28,7 +28,11 @@ export class SpriteDraw {
     return sprites.map(s => {
       const [id, x, y, width, height] = s.split(',');
       return {
-        id, x, y, width, height,
+        id,
+        x: +x,
+        y: +y,
+        width: +width,
+        height: +height,
       }
     });
   }
