@@ -3,6 +3,8 @@ import {Field} from "./field";
 import {Input} from "./Input";
 import {SpriteDraw, Sprite} from "./SpriteDraw";
 import {AnimationUnit} from "./units/AnimationUnit";
+import map = require('../sprites/desert_map.json');
+import sprites = require('../sprites/desert_tileset.json');
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -17,7 +19,7 @@ export class MyScreen {
   units: Characters;
 
   image: HTMLImageElement;
-  spriteField = new SpriteDraw();
+  spriteField = new SpriteDraw(map, sprites);
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -112,13 +114,14 @@ export class MyScreen {
   }
 
   drawSprites() {
-    const {width, height} = this.spriteField;
-
+    const {width, height, layerNum} = this.spriteField;
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        const sprite = this.spriteField.getSprite(x, y);
-        if (sprite) {
-          this.drawSprite(x * 32, y * 32, sprite);
+        for (let l = 0; l < layerNum; l++) {
+          const sprite = this.spriteField.getSprite(l, x, y);
+          if (sprite) {
+            this.drawSprite(x * 32, y * 32, sprite);
+          }
         }
       }
     }

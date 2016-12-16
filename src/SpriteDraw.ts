@@ -1,32 +1,3 @@
-import mapping from './terrain_mapping'
-
-const sprites = [
-  "111111111111111111111111111111111111",
-  "112121212121212121212121212121211121",
-  "112121211212121212121212121212121121",
-  "112121211112111111212121212121212111",
-  "112121212112112121212121212121212111",
-  "112121212112112121212121212121212111",
-  "112121212121112121212121212121212111",
-  "112121212121112121212121212121212111",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "112121212121212121212121212121212121",
-  "1111111111111111111111111111111111"
-];
 
 export interface Sprite {
   id;
@@ -36,29 +7,45 @@ export interface Sprite {
   height;
 }
 export class SpriteDraw {
-  width;
-  height;
-  sprites = [];
+  width: number;
+  height: number;
+  layerNum: number;
+  field;
 
-  constructor() {
-    this.height = sprites.length;
-    this.width = sprites[0].length / 2;
-    for (let name in mapping) {
-      for (let sprite in mapping[name]) {
-        let data = mapping[name][sprite].split(',');
-        this.sprites.push({
-          id: data[0],
-          x: data[1],
-          y: data[2],
-          width: data[3],
-          height: data[4]
-        })
-      }
-    }
+  spriteItems: Sprite[];
+
+  constructor(mapJson, spriteItems) {
+    console.log(mapJson, spriteItems);
+    this.spriteItems = this.importSprites(spriteItems);
+    this.field = mapJson.field;
+    this.layerNum = this.field.length;
+    this.height = mapJson.height;
+    this.width = mapJson.width;
   }
 
-  getSprite(x, y) {
-    const id = sprites[y].substr(x*2, 2);
-    return this.sprites.find(spr => spr.id == id);
+  importSprites(json: any) {
+    const {sprites} = json;
+    return sprites.map(s => {
+      const [id, x, y, width, height] = s.split(',');
+      return {
+        id, x, y, width, height,
+      }
+    });
+  }
+
+  getSprite(layer, x, y) {
+    const field = this.field[layer];
+    return this.spriteItems.find(el => el.id == field[y][x]);
+  }
+
+  protected static fillField(sprites) {
+    let res = [];
+    for (let row of sprites) {
+      res.push([]);
+      for (let i = 0; i < row.length; i += 2) {
+        res[res.length - 1].push(row.substr(i, 2));
+      }
+    }
+    return res;
   }
 }
