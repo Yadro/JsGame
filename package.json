@@ -4,22 +4,10 @@
   "description": "",
   "author": "",
   "license": "ISC",
-  "scripts": {
-    "start": "clear && node build/index"
-  },
-  "dependencies": {
-    "cli-color": "^1.1.0",
-    "requirejs": "^2.3.2"
-  },
   "devDependencies": {
-    "@types/node": "^6.0.46",
     "browser-sync": "^2.18.2",
     "browser-sync-webpack-plugin": "^1.1.3",
-    "gulp": "^3.9.1",
-    "gulp-sourcemaps": "^2.2.0",
-    "gulp-typescript": "^3.1.2",
     "json-loader": "^0.5.4",
-    "rimraf": "^2.5.4",
     "ts-loader": "^1.3.2",
     "typescript": "^2.0.6",
     "webpack": "^1.14.0"
