@@ -5,6 +5,7 @@ import {SpriteDraw, Sprite} from "./SpriteDraw";
 import {AnimationUnit} from "./units/AnimationUnit";
 import map = require('../sprites/desert_map.json');
 import sprites = require('../sprites/desert_tileset.json');
+import {arrayRemove} from "./tools";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -57,9 +58,9 @@ export class MyScreen {
     this.ctx.fillStyle = '#000';
     this.drawField();
 
-    this.drawSprites();
+    this.drawFieldAndUnits();
 
-    this.drawUnits();
+    // this.drawUnits();
   }
 
   drawField() {
@@ -78,12 +79,20 @@ export class MyScreen {
       if (un instanceof AnimationUnit) {
         this.drawUnitSprite(un);
       } else {
-        this.drawUnit(un);
+        this.drawUnitWithoutSprite(un);
       }
     })
   }
 
   drawUnit(un) {
+    if (un instanceof AnimationUnit) {
+      this.drawUnitSprite(un);
+    } else {
+      this.drawUnitWithoutSprite(un);
+    }
+  }
+
+  drawUnitWithoutSprite(un) {
     const pos = un.pos;
     this.ctx.fillRect(pos.x, pos.y, un.size, un.size);
   }
@@ -107,8 +116,9 @@ export class MyScreen {
     this.ctx.fillRect(x, y, un.health * 3, 3);
   }
 
-  drawSprite(x, y, sprite: Sprite) {
-    this.ctx.drawImage(this.image, sprite.x, sprite.y, sprite.width, sprite.height, x, y, 32, 32);
+  drawFieldSprite(x, y, sprite: Sprite) {
+    if (!sprite) return;
+    this.ctx.drawImage(this.image, sprite.x, sprite.y, sprite.width, sprite.height, x * 32, y * 32, 32, 32);
   }
 
   drawSprites() {
@@ -118,8 +128,28 @@ export class MyScreen {
         for (let l = 0; l < layerNum; l++) {
           const sprite = this.spriteField.getSprite(l, x, y);
           if (sprite) {
-            this.drawSprite(x * 32, y * 32, sprite);
+            this.drawFieldSprite(x, y, sprite);
           }
+        }
+      }
+    }
+  }
+
+  drawFieldAndUnits() {
+    let characters = this.units.characters.sort((a, b) => a.pos.x - b.pos.x).slice();
+    let buf;
+    const {width, height, layerNum} = this.spriteField;
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        this.drawFieldSprite(x, y, this.spriteField.getSprite(0, x, y));
+
+        buf = characters.filter(u => (u.pos.y / 32 < y - 1));
+        buf.forEach(u => this.drawUnit(u));
+        characters = arrayRemove(characters, buf);
+        // buf.forEach(u => characters = characters.splice(characters.indexOf(u), 1));
+
+        for (let l = 1; l < layerNum; l++) {
+          this.drawFieldSprite(x, y, this.spriteField.getSprite(l, x, y));
         }
       }
     }
