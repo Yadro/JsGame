@@ -1,7 +1,7 @@
-import {Unit} from "./unit";
+import {Unit} from "./Unit";
 import {RootUnit} from "./RootUnit";
 import {Bullet} from "./Bullet";
-import {Bot} from "./bot";
+import {Bot} from "./Bot";
 
 type Un = Bullet|Unit|Bot;
 

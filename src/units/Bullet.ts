@@ -1,5 +1,5 @@
 import {RootUnit} from "./RootUnit";
-import {Unit} from "./unit";
+import {Unit} from "./Unit";
 
 export class Bullet extends RootUnit {
   bullet: true;

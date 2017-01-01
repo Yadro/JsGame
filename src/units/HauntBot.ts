@@ -1,6 +1,6 @@
 
-import {Bot} from "./bot";
-import {Unit} from "./unit";
+import {Bot} from "./Bot";
+import {Unit} from "./Unit";
 
 export class HauntBot extends Bot {
   target: Unit;
