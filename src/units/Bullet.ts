@@ -7,7 +7,7 @@ export class Bullet extends RootUnit {
 
   constructor(un: Unit, angle) {
     const speed = 10;
-    let o = applayAngle(speed, angle);
+    let o = applyAngle(speed, angle);
     o.x = un.pos.x + Math.floor(un.size / 2);
     o.y = un.pos.y + Math.floor(un.size / 2);
     super('*', o, 5);
@@ -26,7 +26,7 @@ export class Bullet extends RootUnit {
 }
 
 
-function applayAngle(speed, angle): any {
+function applyAngle(speed, angle): any {
   return {
     dirX: Math.sign(Math.cos(angle)),
     dirY: Math.sign(Math.sin(angle)),

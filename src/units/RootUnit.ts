@@ -92,7 +92,7 @@ export class RootUnit {
   }
 }
 
-const pi = 3.14;
+const pi = Math.PI;
 export function getAngle(pos, mouse) {
   const {x, y} = mouse;
   let pX = pos.x - x;
