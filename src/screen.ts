@@ -22,7 +22,7 @@ export class MyScreen {
   image: HTMLImageElement;
   spriteField = new SpriteDraw(map, sprites);
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas) {
     this.canvas = canvas;
     this.canvas.setAttribute('height', ''+this.size.height);
     this.canvas.setAttribute('width', ''+this.size.width);
