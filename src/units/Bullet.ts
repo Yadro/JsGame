@@ -6,7 +6,7 @@ export class Bullet extends RootUnit {
   own: Unit;
 
   constructor(un: Unit, angle) {
-    const speed = 10;
+    const speed = 20;
     let o = applyAngle(speed, angle);
     o.x = un.pos.x + Math.floor(un.size / 2);
     o.y = un.pos.y + Math.floor(un.size / 2);

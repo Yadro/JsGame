@@ -6,6 +6,7 @@ import {AnimationUnit} from "./units/AnimationUnit";
 import map = require('../sprites/desert_map.json');
 import sprites = require('../sprites/desert_tileset.json');
 import {arrayRemove} from "./tools";
+import {RootUnit} from "./units/RootUnit";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -111,8 +112,8 @@ export class MyScreen {
     }
   }
 
-  drawHealth(x, y, un) {
-    this.ctx.strokeRect(x, y, 15, 3);
+  drawHealth(x, y, un: RootUnit) {
+    this.ctx.strokeRect(x, y, un.maxHealth * 3, 3);
     this.ctx.fillRect(x, y, un.health * 3, 3);
   }
 

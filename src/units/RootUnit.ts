@@ -15,7 +15,8 @@ export class RootUnit {
   pos: IPosition;
   size;
   dead: boolean;
-  health = 5;
+  health = 15;
+  maxHealth = 15;
 
   field: Field;
   units: Characters;
