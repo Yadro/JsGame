@@ -47,7 +47,7 @@ export class FirstIntelligenceBot extends Bot {
     const localMap = new Matrix(3, 3);
     const {field} = this;
     let curX = aX, curY = aY,
-      wX, wY;
+      wX, wY, val;
 
     let i = 0;
     map.set(aX, aY, 50);
@@ -59,8 +59,12 @@ export class FirstIntelligenceBot extends Bot {
           if (!dY && !dX) continue;
           wX = curX + dX;
           wY = curY + dY;
-          // field.get(tX + dX, tY + dX);
-          const val = Math.round(Math.sqrt(Math.pow(eX - wX, 2) + Math.pow(eY - wY, 2)) * 100) / 100;
+          let wall = field.get(wX, wY);
+          if (wall) {
+            val = 50;
+          } else {
+            val = Math.round(Math.sqrt(Math.pow(eX - wX, 2) + Math.pow(eY - wY, 2)) * 100) / 100;
+          }
           map.set(wX, wY, val + 1);
           localMap.set(dX + 1, dY + 1, val);
         }
