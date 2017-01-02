@@ -46,8 +46,19 @@ export class Field {
     return buf;
   }
 
+  /**
+   * Get cell from field with convert pixel coord to field coord
+   * @param x in px
+   * @param y in px
+   */
   getCell(x, y) {
     const size = this.size;
-    return this.field[Math.floor(y / size)][Math.floor(x / size)];
+    const fY = Math.floor(y / size);
+    const fX = Math.floor(x / size);
+    if (fY < 0 || fY > this.field.length - 1
+      ||fX < 0 || fX > this.field[0].length - 1) {
+      throw new Error;
+    }
+    return this.field[fY][fX];
   }
 }

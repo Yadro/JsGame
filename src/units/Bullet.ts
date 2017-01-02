@@ -2,7 +2,7 @@ import {RootUnit} from "./RootUnit";
 import {Unit} from "./Unit";
 
 export class Bullet extends RootUnit {
-  bullet: true;
+  bullet;
   own: Unit;
 
   constructor(un: Unit, angle) {

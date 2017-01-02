@@ -30,12 +30,12 @@ export class RootUnit {
   protected checkCollision(posObj : IPosition) {
     this.pos.touch = false;
     return {
-      x: this.checkProjectionCollision(posObj, true),
-      y: this.checkProjectionCollision(posObj, false)
+      x: this.checkPlaneCollision(posObj, true),
+      y: this.checkPlaneCollision(posObj, false)
     }
   }
 
-  private checkProjectionCollision(posObj : IPosition, horizont) {
+  private checkPlaneCollision(posObj : IPosition, horizont) {
     const fixPos = horizont ? posObj.y : posObj.x;
     let   pos =    horizont ? posObj.x : posObj.y;
     const dir =    horizont ? posObj.dirX : posObj.dirY;
@@ -64,6 +64,13 @@ export class RootUnit {
           break;
         }
         canPos[j]++;
+      }
+      if (Math.abs(speed - Math.floor(speed)) > 0) {
+        if (isWall(Math.round(pos + dir * speed), j)) {
+          this.pos.touch = true;
+        } else {
+          canPos[j] = speed;
+        }
       }
     }
     return dir * Math.min(...canPos);
