@@ -29,9 +29,13 @@ const field = [
 export class Field {
   field;
   size;
+  width;
+  height;
 
   constructor(size) {
     this.field = this.readField();
+    this.height = this.field.length - 1;
+    this.width = this.field[0].length - 1;
     this.size = size;
   }
 
@@ -55,8 +59,8 @@ export class Field {
     const size = this.size;
     const fY = Math.floor(y / size);
     const fX = Math.floor(x / size);
-    if (fY < 0 || fY > this.field.length - 1
-      ||fX < 0 || fX > this.field[0].length - 1) {
+    if (fY < 0 || fY > this.height
+      ||fX < 0 || fX > this.width) {
       throw new Error;
     }
     return this.field[fY][fX];
