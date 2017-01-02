@@ -15,7 +15,7 @@ export class Unit extends AnimationUnit {
       dirY: 0,
       speedX: 7,
       speedY: 7,
-    }, 35);
+    }, 32);
   }
 
   moveTo(e: Input) {

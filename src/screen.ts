@@ -5,8 +5,9 @@ import {SpriteDraw, Sprite} from "./SpriteDraw";
 import {AnimationUnit} from "./units/AnimationUnit";
 import map = require('../sprites/desert_map.json');
 import sprites = require('../sprites/desert_tileset.json');
-import {arrayRemove} from "./tools";
+import {arrayRemove, smap} from "./tools";
 import {RootUnit} from "./units/RootUnit";
+import {FirstIntelligenceBot} from "./units/FirstIntelectBot";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -58,10 +59,11 @@ export class MyScreen {
     this.ctx.fillRect(0, 0, this.size.height, this.size.width);
     this.ctx.fillStyle = '#000';
     this.drawField();
+    this.drawIntelectMap();
 
-    this.drawFieldAndUnits();
+    // this.drawFieldAndUnits();
 
-    // this.drawUnits();
+    this.drawUnits();
   }
 
   drawField() {
@@ -95,6 +97,7 @@ export class MyScreen {
 
   drawUnitWithoutSprite(un) {
     const pos = un.pos;
+    this.ctx.fillStyle = 'black';
     this.ctx.fillRect(pos.x, pos.y, un.size, un.size);
   }
 
@@ -113,6 +116,7 @@ export class MyScreen {
   }
 
   drawHealth(x, y, un: RootUnit) {
+    this.ctx.fillStyle = 'black';
     this.ctx.strokeRect(x, y, un.maxHealth * 3, 3);
     this.ctx.fillRect(x, y, un.health * 3, 3);
   }
@@ -155,8 +159,26 @@ export class MyScreen {
       }
     }
   }
+
+  private drawIntelectMap() {
+    const map = this.units.characters.filter(u => u instanceof FirstIntelligenceBot)[0].map;
+    const size = this.field.size;
+    const {ctx} = this;
+    map.matrix.forEach((row, y) => {
+      row.forEach((i, x) => {
+        ctx.fillStyle = color(i);
+        if (i != 0) {
+          ctx.fillRect(x * size, y * size, size, size);
+        }
+      });
+    });
+  }
 }
 
+function color(val) {
+  let c = Math.round(smap(val, 50, 0, 0, 255));
+  return `rgb(${c},${c},${c})`;
+}
 
 function replace(str, text, pos) {
   return str.substring(0, pos) + text + str.substring(pos + text.length);
