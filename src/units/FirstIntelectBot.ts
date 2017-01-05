@@ -25,7 +25,7 @@ export class FirstIntelligenceBot extends Bot {
     const {pos} = un[0];
 
     // this.map = this.algA(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
-    this.map = this.findPath(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
+    // this.map = this.findPath(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
   }
 
 

@@ -59,7 +59,7 @@ export class MyScreen {
     this.ctx.fillRect(0, 0, this.size.height, this.size.width);
     this.ctx.fillStyle = '#000';
     this.drawField();
-    this.drawIntelectMap();
+    // this.drawIntelectMap();
 
     // this.drawFieldAndUnits();
 
