@@ -1,7 +1,14 @@
 import {Bot} from "./Bot";
-import {Matrix} from "../tools";
 import {Unit} from "./Unit";
+import Matrix from "../helpers/matrix";
+import Point from "../helpers/point";
 
+interface Node {
+  p: Point
+  g; /** вес шага */
+  f; /** g + h */
+  h; /** прямое расстояние */
+}
 
 export class FirstIntelligenceBot extends Bot {
   map: Matrix;
@@ -17,28 +24,8 @@ export class FirstIntelligenceBot extends Bot {
     const un = characters.filter(u => u instanceof Unit);
     const {pos} = un[0];
 
-    /*for (let y = 0; y <= field.height; y++) {
-      for (let x = 0; x <= field.width; x++) {
-        map.set(x, y, (field.get(x, y) == 1 ? -1 : 0));
-      }
-    }
-    map.set(Math.round(pos.x / 32), Math.round(pos.y / 32), -1); */
-
-    /*
-    for (let j = Math.round(pos.y / 32); j > 0; j--) {
-      for (let i = Math.round(pos.x / 32); i >= 0; i--) {
-        if (field.get(i, j) == 1 && field.get(i - 1, j) != 1) {
-          map.set(i - 1, j, 1);
-        }
-        if (field.get(i, j) == 1 && field.get(i, j - 1) != 1) {
-          map.set(i, j - 1, 1);
-        }
-      }
-    }*/
-
-    //this.searchWalls();
-
-    this.map = this.algA(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
+    // this.map = this.algA(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
+    this.map = this.findPath(Math.round(this.pos.x / 32), Math.round(this.pos.y / 32), Math.round(pos.x / 32), Math.round(pos.y / 32));
   }
 
 
@@ -81,6 +68,83 @@ export class FirstIntelligenceBot extends Bot {
     // map.print();
     window.mmmap = map;
     return map;
+  }
+
+  private findPath(sX, sY, tX, tY) {
+    const mtx = new Matrix(32, 32);
+    window.fmap = mtx;
+
+    const start = new Point(sX, sY);
+    const target = new Point(tX, tY);
+    let openList: Node[] = [];
+    let closedList: Node[] = [];
+    let cameFrom: Set<Node> = new Set();
+    openList.push({
+      p: start,
+      f: 0,
+      g: start.getDist(target),
+      h: start.getDist(target)
+    });
+
+    let current: Node;
+    while (openList.length) {
+      current = openList.sort((a, b) => a.f - b.f).shift();
+      closedList.push(current);
+      if (current.p.equal(target)) {
+        // return this.genPath(cameFrom, current);
+        cameFrom.forEach(n => mtx.setP(n.p, 25));
+        mtx.setP(target, 0);
+        return mtx;
+      }
+      const neighbors = this.getNeighbor(current.p, target);
+      for (let neighbor of neighbors) {
+        if (closedList.filter(n => neighbor.p.equal(n.p)).length) {
+          continue;
+        }
+        const gDistance = current.g + current.p.getDist(neighbor.p);
+        if (!openList.filter(n => neighbor.p.equal(n.p)).length) {
+          openList.push(neighbor);
+        } else if (gDistance >= neighbor.g) {
+          continue;
+        }
+        cameFrom.add(current);
+        neighbor.g = gDistance;
+        neighbor.f = neighbor.g + neighbor.h;
+      }
+      closedList.forEach(n => mtx.setP(n.p, n.h));
+      openList.forEach(n => mtx.setP(n.p, n.h));
+    }
+  }
+
+  getNeighbor(current: Point, target: Point) {
+    const {field} = this;
+    const neighbor: Node[] = [];
+    for (let y = -1; y < 2; y++) {
+      for (let x = -1; x < 2; x++) {
+        if (x == 0 && y == 0) continue;
+        const p = new Point(current.x + x, current.y + y);
+        if (field.get(p.x, p.y)) {
+          continue;
+        }
+        let n = {
+          p,
+          h: p.getDist(target),
+          g: x == 0 || y == 0 ? 10 : 14,
+          f: 0
+        };
+        n.f = n.h + n.g;
+        neighbor.push(n);
+      }
+    }
+    return neighbor;
+  }
+
+  genPath(cameFrom: Set<Node>, current: Node) {
+    let totalPath = [current];
+    for (let current of cameFrom) {
+      totalPath.push(current);
+    }
+    return totalPath;
   }
 
   states = {
