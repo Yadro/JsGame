@@ -54,19 +54,24 @@ export class Field {
    * Get cell from field with convert pixel coord to field coord
    * @param x in px
    * @param y in px
+   * @param onError
    */
-  getCell(x, y) {
+  getCell(x, y, onError?) {
     const size = this.size;
     const fY = Math.floor(y / size);
     const fX = Math.floor(x / size);
-    if (fY < 0 || fY > this.height
-      ||fX < 0 || fX > this.width) {
-      throw new Error;
-    }
-    return this.field[fY][fX];
+    return this.get(fX, fY, onError);
   }
 
-  get(x, y) {
+  get(x, y, onError?) {
+    if (y < 0 || y > this.height
+      ||x < 0 || x > this.width) {
+      if (onError != null) {
+        return onError;
+      } else {
+        throw new Error;
+      }
+    }
     return this.field[y][x];
   }
 }

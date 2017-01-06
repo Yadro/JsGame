@@ -8,6 +8,8 @@ import sprites = require('../sprites/desert_tileset.json');
 import {arrayRemove, smap} from "./tools";
 import {RootUnit} from "./units/RootUnit";
 import {FirstIntelligenceBot} from "./units/FirstIntelectBot";
+import Light from "./Light";
+import {Unit} from "./units/Unit";
 
 export class MyScreen {
   private canvas: HTMLCanvasElement;
@@ -20,18 +22,22 @@ export class MyScreen {
 
   field = new Field(32);
   units: Characters;
+  light: Light;
 
   image: HTMLImageElement;
   spriteField = new SpriteDraw(map, sprites);
 
-  constructor(canvas) {
+  constructor(canvas, characters) {
     this.canvas = canvas;
     this.canvas.setAttribute('height', ''+this.size.height);
     this.canvas.setAttribute('width', ''+this.size.width);
     this.ctx = canvas.getContext('2d');
     this.units = new Characters(this.field);
+    characters.forEach(u => this.units.addChar(u));
+
     this.input = new Input();
 
+    this.light = new Light(this.ctx, this.field, characters.find(u => u instanceof Unit));
     this.image = new Image();
     this.image.src = '../sprites/desert_tileset.png';
     this.image.onload = () => {
@@ -64,6 +70,7 @@ export class MyScreen {
     // this.drawFieldAndUnits();
 
     this.drawUnits();
+    this.light.draw();
   }
 
   drawField() {
